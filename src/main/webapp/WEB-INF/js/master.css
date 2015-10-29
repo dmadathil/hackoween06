@@ -17,28 +17,52 @@ body {
     background-position: center center;
 }
 .room3 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page3.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room4 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page4.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room5 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page5.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room6 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page6.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room7 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page7.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room8 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page8.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room9 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page9.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 .room10 {
-	background-image: url("/images/landing_page1.png");
+	background-image: url("/images/page10.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
 }
 
 #wrapper {
