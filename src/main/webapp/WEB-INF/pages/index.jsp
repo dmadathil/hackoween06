@@ -10,13 +10,13 @@
 <script>
 $(document).ready(function(){
     $("#north_button").click(function(){
-        $.post("/voice",
+        $.post("/movePerson",
         {
-          attr1: "data1",
+          attr1: "NORTH",
           attr2: "data2"
         },
         function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
+           $("#roompage").addClass("room2").removeClass("room1"); 
         });
     });
     $("#south_button").click(function(){
@@ -26,7 +26,7 @@ $(document).ready(function(){
           attr2: "data2"
         },
         function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
+            //alert("Data: " + data + "\nStatus: " + status);
         });
     });
     $("#east_button").click(function(){
@@ -36,7 +36,7 @@ $(document).ready(function(){
           attr2: "data2"
         },
         function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
+            //alert("Data: " + data + "\nStatus: " + status);
         });
     });
     $("#west_button").click(function(){
@@ -46,7 +46,7 @@ $(document).ready(function(){
           attr2: "data2"
         },
         function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
+            //alert("Data: " + data + "\nStatus: " + status);
         });
     });
 });
@@ -55,9 +55,9 @@ $(document).ready(function(){
 <body>
 
 
-<div data-role="page" class="room1">
+<div id="roompage" data-role="page" class="room1">
 
-<h2>Welcome ${userName}</h2>   
+<h2>Welcome ${userName} in ${roomId}</h2>   
  
     <div data-role="content">
         

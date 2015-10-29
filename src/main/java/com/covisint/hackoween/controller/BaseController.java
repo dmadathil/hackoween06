@@ -115,6 +115,8 @@ public class BaseController {
 		}
         logger.debug(" attr1 ", attr1);
         logger.debug("[welcomeName] counter : {}", counter);
+        model.addAttribute("userName", person.getFirstName());
+        model.addAttribute("roomId", person.getCurrentRoom().getRefId());
         Gson gson = new Gson();
         String personString = gson.toJson(person);
         logger.debug("person json = " + personString);
