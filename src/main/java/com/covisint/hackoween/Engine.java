@@ -20,7 +20,7 @@ public class Engine {
 	private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BaseController.class);
 	
 	public enum RoomDirection{
-		NORTH(0), SOUTH(1), EAST(2), WEST(3);
+		NORTH(2), SOUTH(3), EAST(0), WEST(1);
 		private int value;
 
 		private RoomDirection(int value) {
@@ -84,6 +84,7 @@ public class Engine {
 	}
 	
 	public Person movePerson(String id, String refId) throws ClientProtocolException, IOException {
+	    logger.debug("id and refid " +id + " " + refId);
 		Person person = persons.get(id);
 		if(person==null) {
 			String name = BaseController.getUser(id, BaseController.getToken());
@@ -96,6 +97,7 @@ public class Engine {
 			}
 			person = new Person(id, name, "NA");
 			person.setCurrentRoom(rooms.get("1"));
+			persons.put(id, person);
 		}
 		if(refId == null) {
 			this.movePersontoRoom(person, null);
@@ -105,8 +107,15 @@ public class Engine {
 			}
 			String[] personRooms = person.getCurrentRoom().getRooms();
 			String roomId = personRooms[RoomDirection.valueOf(refId).value];
+			logger.debug("refId "+refId);
+			logger.debug("roomId "+roomId);
+			logger.debug("RoomDirection.valueOf(refId).value  "+RoomDirection.valueOf(refId).value);
+			if(roomId == null || "".equals(roomId.trim())){
+			    roomId = "1";
+			}
 			Room room = rooms.get(roomId);
 			this.movePersontoRoom(person, room);
+			
 		}
 		return person;
 	}
@@ -123,6 +132,7 @@ public class Engine {
 			person.setCurrentRoom(rooms.get("1"));
 		} else {
 			roomMap.get(room.getRefId()).add(person);
+			logger.debug("Room refId"+room.getRefId());
 			person.setCurrentRoom(room);
 		}
 		
