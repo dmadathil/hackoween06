@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +25,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -50,7 +52,47 @@ public class BaseController {
 
         model.addAttribute("message", "Welcome Home");
         model.addAttribute("counter", ++counter);
+        String token = "";
+        
+        try {
+             token = getToken();
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        }
 
+        // Spring uses InternalResourceViewResolver and return back index.jsp
+        return VIEW_INDEX;
+
+    }
+    
+    @RequestMapping(value = "/federated", method = RequestMethod.GET)
+    public String remoteUserLoad(ModelMap model,@RequestHeader("CT_REMOTE_USER") String ctUser) {
+
+        model.addAttribute("message", "Welcome Federated User");
+        model.addAttribute("ctUser", ctUser);
+        String token = "";
+        String name  = "";
+        
+        try {
+             token = getToken();
+             name =  getUser(ctUser, token);
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        }
+       logger.debug(" name "+name);
+       model.addAttribute("userName", name);
         // Spring uses InternalResourceViewResolver and return back index.jsp
         return VIEW_INDEX;
 
@@ -76,7 +118,7 @@ public class BaseController {
 
     }
 
-  public String getToken() throws ClientProtocolException, IOException {
+  public  static String getToken() throws ClientProtocolException, IOException {
     String url = "https://api.covapp.io/oauth/v3/token";
 
     HttpClient client      = HttpClientBuilder.create().build();
@@ -120,7 +162,7 @@ public class BaseController {
     post.addHeader( "Content-Type",  "application/vnd.com.covisint.platform.messaging.sendcommand.v1+json" );
     post.addHeader( "x-requestor",   "GBAWARI" );
     post.addHeader( "x-requestor-app",   "postman" );
-    //post.addHeader( "x-realm",       "HAL06-HACK" );
+    post.addHeader( "x-realm",       "HAL06-HACK" );
     post.addHeader( "Authorization", "Bearer " + token );
     
     StringBuilder builder = new StringBuilder( "{ \"messageId\":\"CommandobDojSequenceNum1158df1\", " )
@@ -137,6 +179,42 @@ public class BaseController {
     HttpResponse response = client.execute( post );
     //System.out.println( "Response Code : "  + response.getStatusLine().getStatusCode());
   }
+  
+  public static String getUser( String ctUser, String token ) throws ClientProtocolException, IOException {
+      String url = "https://api.us1.covisint.com/person/v1/persons/"+ctUser;
+
+      HttpClient client      = HttpClientBuilder.create().build();
+      HttpGet   post        = new HttpGet( url );
+      post.addHeader( "Accept",        "application/vnd.com.covisint.platform.person.v1+json" );
+      post.addHeader( "Content-Type",  "application/vnd.com.covisint.platform.person.v1+json" );
+      post.addHeader( "x-requestor",   "GBAWARI" );
+      post.addHeader( "x-requestor-app",   "postman" );
+      post.addHeader( "x-realm",       "HAL06-HACK" );
+      post.addHeader( "Authorization", "Bearer " + token );
+      
+
+      HttpResponse response = client.execute( post );
+      
+      BufferedReader rd     = new BufferedReader( new InputStreamReader(response.getEntity().getContent()));
+      StringBuffer   result = new StringBuffer();
+      String         line   = "";
+      while(( line = rd.readLine()) != null ) {
+        result.append( line );
+      }
+      
+      String payload = new String( result.toString() );
+      JsonParser parser = new JsonParser();
+      JsonObject jo = ( JsonObject ) parser.parse( payload );
+      String email = jo.get( "email" ).getAsString();
+      logger.debug( "email  " + email );
+      JsonObject name = jo.get( "name" ).getAsJsonObject();
+      String nameGiven = name.get( "given" ).getAsString();
+      logger.debug( "namegiven  " + nameGiven );
+      String surName = name.get( "surname" ).getAsString();
+      logger.debug( "surName  " + surName );
+      return nameGiven + " "+surName;
+      //System.out.println( "Response Code : "  + response.getStatusLine().getStatusCode());
+    }
 
 }
 
