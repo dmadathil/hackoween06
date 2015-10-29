@@ -54,7 +54,7 @@ $(document).ready(function(){
 <div data-role="page" class="room1">
  
     <div data-role="content">
-        <p>Hello world</p>
+        
     </div><!-- /content -->
 
     <div data-role="footer" data-position="fixed">
