@@ -192,7 +192,7 @@ public class BaseController {
     post.addHeader( "Authorization", "Bearer " + token );
     
     StringBuilder builder = new StringBuilder( "{ \"messageId\":\"CommandobDojSequenceNum1158df1\", " )
-                           .append( "\"deviceId\":\"2857437f-b7931-4a98-a4c1-29e8ecf497bb\", " )
+                           .append( "\"deviceId\":\"2857437f-b793-4a98-a4c1-29e8ecf497bb\", " )
                            .append( "\"commandId\":\"9bea93da-1965-441f-a069-11860b8358f4\", " )
                            .append( "\"message\":\"" ).append( command ).append( "\", " )
                            .append("\"encodingType\":\"base64\" }" )
