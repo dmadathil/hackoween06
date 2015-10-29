@@ -31,7 +31,7 @@ public class Engine {
 			Person p = iter.next();
 			System.out.println("ID = " + p.getId());
 		}
-		int theRoom = Integer.parseInt(p1.getCurrentRoom().getRooms()[0] );
+		
 		engine.movePersontoRoom( p1, engine.rooms.get( p1.getCurrentRoom().getRooms()[0] ));
 		System.out.println( p1.getCurrentRoom().getName() );
 	}
