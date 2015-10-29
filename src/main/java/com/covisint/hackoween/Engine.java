@@ -1,15 +1,29 @@
 package com.covisint.hackoween;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.http.client.ClientProtocolException;
+
+import com.covisint.hackoween.controller.BaseController;
 import com.covisint.hackoween.model.Person;
 import com.covisint.hackoween.model.Room;
 
 
-public class Engine {
+public class Engine { 
+	
+	public enum RoomDirection{
+		NORTH(0), SOUTH(1), EAST(2), WEST(3);
+		private int value;
+
+		private RoomDirection(int value) {
+		this.value = value;
+		}
+		};
 	
 	public static void main(String[] args) {
 		Engine engine = new Engine();
@@ -63,13 +77,27 @@ public class Engine {
 		}
 	}
 	
-	public Person movePerson(String id, String refId) {
+	public Person movePerson(String id, String refId) throws ClientProtocolException, IOException {
 		Person person = persons.get(id);
 		if(person==null) {
-			person = new Person(id,"NA", "NA");
+			String name = BaseController.getUser(id, BaseController.getToken());
+			if(name == null) {
+				name = "NA";
+			}
+			if(id == null) {
+				System.out.println("id is null -- using uuid");
+				id = UUID.randomUUID().toString();
+			}
+			person = new Person(id, name, "NA");
 		}
-		Room room = rooms.get(refId);
-		this.movePersontoRoom(person, room);
+		if(refId == null) {
+			this.movePersontoRoom(person, null);
+		} else {
+			String[] personRooms = person.getCurrentRoom().getRooms();
+			String roomId = personRooms[RoomDirection.valueOf(refId).value];
+			Room room = rooms.get(roomId);
+			this.movePersontoRoom(person, room);
+		}
 		return person;
 	}
 	

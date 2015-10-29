@@ -31,6 +31,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.covisint.hackoween.Engine;
+import com.covisint.hackoween.model.Person;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -46,6 +49,7 @@ public class BaseController {
     private static int counter = 0;
     private static final String VIEW_INDEX = "index";
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BaseController.class);
+    private final static Engine engine = new Engine();
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome(ModelMap model) {
@@ -107,6 +111,28 @@ public class BaseController {
         return VIEW_INDEX;
 
     }*/
+    
+    @RequestMapping(value = "/moveperson", method = RequestMethod.POST)
+    public String movePerson(ModelMap model,@RequestHeader("CT_REMOTE_USER") String ctUser, @RequestParam String attr1) {
+
+        Person person = null;
+		try {
+			person = engine.movePerson(ctUser, attr1);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        logger.debug(" attr1 ", attr1);
+        logger.debug("[welcomeName] counter : {}", counter);
+        Gson gson = new Gson();
+        String personString = gson.toJson(person);
+        logger.debug("person json = " + personString);
+        return personString;
+
+    }
     
     @RequestMapping(value = "/voice", method = RequestMethod.POST)
     public String welcomeName(ModelMap model,@RequestParam String attr1) {
