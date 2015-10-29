@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
         /**
  *
@@ -32,11 +33,21 @@ public class BaseController {
 
     }
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public String welcomeName(@PathVariable String name, ModelMap model) {
 
         model.addAttribute("message", "Welcome " + name);
         model.addAttribute("counter", ++counter);
+        logger.debug("[welcomeName] counter : {}", counter);
+        return VIEW_INDEX;
+
+    }*/
+    
+    @RequestMapping(value = "/voice", method = RequestMethod.POST)
+    public String welcomeName(ModelMap model,@RequestParam String attr1) {
+
+
+        logger.debug(" attr1 ", attr1);
         logger.debug("[welcomeName] counter : {}", counter);
         return VIEW_INDEX;
 
