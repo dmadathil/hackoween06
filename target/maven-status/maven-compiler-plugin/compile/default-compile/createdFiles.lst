@@ -1,0 +1,5 @@
+com/covisint/hackoween/controller/BaseController.class
+com/covisint/hackoween/model/Room.class
+com/covisint/hackoween/model/Person.class
+com/covisint/hackoween/Engine.class
+com/covisint/hackoween/model/HauntedHouse.class

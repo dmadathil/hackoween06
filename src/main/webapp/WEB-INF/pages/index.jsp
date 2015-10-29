@@ -1,8 +1,11 @@
 <html ng-app="app">
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js"></script>
+<script src="/js/backgroundImage.js"></script>
 
 <body>
+
+<div background-image="/images/landing-page1.png"></div>
 <div class="overlay layer1" bg-img 
      data-bg-src="/images/landing_page1.png" 
      data-bg-size="cover"
