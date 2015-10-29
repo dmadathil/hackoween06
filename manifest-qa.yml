@@ -1,0 +1,30 @@
+---
+applications:
+- name: nightmare
+  domain: run.covapp.io
+  host: nightmare
+  buildpack: covs-java
+
+  instances: 1
+  memory: 2G
+  timeout: 180
+  env:
+    CT_AUTH_HOST: ctrust.covapp.io
+    CT_AUTH_LOGIN_URL: https://employee.covisint.com
+    CT_AUTH_TOKEN_COOKIE_DOMAIN: .covapp.io
+    CT_AUTH_TOKEN_COOKIE_NAME: AUTH-HAL06-HACK
+    CT_AUTH_TOKEN_IDLE_TIMEOUT: 30
+    CT_AUTH_TOKEN_SESSION_TIMEOUT: 480
+    CT_AUTH_WEBSERVER_NAME: HAL06-HACK Portal (Service 198501000)
+    CT_REDIRECT_NON_HTTPS: true
+    valve: |
+      {
+        "engine":[
+          {
+            "className":"com.covisint.platform.http.plugin.tomcat.BasicCleartrustAuthenticationValve"
+          }
+        ]
+      }
+
+
+

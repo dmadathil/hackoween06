@@ -1,0 +1,34 @@
+---
+applications:
+- name: login_nonce
+  domain: login.qa.covapp.io
+  host: cexp
+  buildpack: https://github.com/Covisint-PST/java-buildpack.git
+
+  instances: 1
+  memory: 2G
+  timeout: 180
+  env:
+  CT_AUTH_HOST: ctrust.covapp.io
+  CT_AUTH_LOGIN_URL: https://hal06-hack.login.covapp.io/login.do?host=https://hal06-hack.portal.covapp.io&ct_orig_uri=%s
+  CT_AUTH_TOKEN_COOKIE_DOMAIN: .covapp.io
+  CT_AUTH_TOKEN_COOKIE_NAME: AUTH-HAL06-HACK
+  CT_AUTH_TOKEN_IDLE_TIMEOUT: 30
+  CT_AUTH_TOKEN_SESSION_TIMEOUT: 480
+  CT_AUTH_WEBSERVER_NAME: HAL06-HACK Portal (Service 198501000)
+  CT_REDIRECT_NON_HTTPS: true
+    CATALINA_OPTS: -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false
+    JAVA_OPTS:  -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Ddatabase.user=crs -Ddatabase.pwd=ZLXEDyR7zXTx -Ddatabase.url=jdbc:oracle:thin:@idmapstg.c3z1rkbvtqhv.us-east-1.rds.amazonaws.com:1521:idmapstg
+    authn_baseServiceUrl: "http://authn-2-2-qa.run.covisintrnd.com"
+
+    valve: |
+  {
+    "engine":[
+      {
+        "className":"com.covisint.platform.http.plugin.tomcat.BasicCleartrustAuthenticationValve"
+      }
+    ]
+  }
+
+
+
