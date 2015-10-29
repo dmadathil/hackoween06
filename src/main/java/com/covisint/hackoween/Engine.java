@@ -31,6 +31,9 @@ public class Engine {
 			Person p = iter.next();
 			System.out.println("ID = " + p.getId());
 		}
+		int theRoom = Integer.parseInt(p1.getCurrentRoom().getRooms()[0] );
+		engine.movePersontoRoom( p1, engine.rooms.get( p1.getCurrentRoom().getRooms()[0] ));
+		System.out.println( p1.getCurrentRoom().getName() );
 	}
 	
 	private HashMap<String, Room> rooms = new HashMap<String, Room>();
@@ -47,16 +50,16 @@ public class Engine {
 	private void initialize() {
 		//Create ten rooms manually
 		Room[] myrooms = new Room[] {
-				new Room("1", "Foyer", "/images/foyer.png", true, false, new String[]{"7","","2",""}),
-				new Room("2", "Foyer", "/images/foyer.png", true, false, new String[]{"3","3","",""}),
-				new Room("3", "Foyer", "/images/foyer.png", true, false, new String[]{"5","","","1"}),
-				new Room("4", "Foyer", "/images/foyer.png", true, false, new String[]{"10","3","",""}),
-				new Room("5", "Foyer", "/images/foyer.png", true, false, new String[]{"","2","3",""}),
-				new Room("6", "Foyer", "/images/foyer.png", true, false, new String[]{"","5","4",""}),
-				new Room("7", "Foyer", "/images/foyer.png", true, false, new String[]{"9","","5",""}),
-				new Room("8", "Foyer", "/images/foyer.png", true, false, new String[]{"9","","9",""}),
-				new Room("9", "Foyer", "/images/foyer.png", true, false, new String[]{"","6","8",""}),
-				new Room("10", "Foyer", "/images/foyer.png", true, false, new String[]{"-1","","","9"})};
+				new Room("1", "Room of the Living Dead", "/images/foyer.png", true, false, new String[]{"7","","2",""}),
+				new Room("2", "Asylum", "/images/foyer.png", true, false, new String[]{"3","3","",""}),
+				new Room("3", "Saw Room", "/images/foyer.png", true, false, new String[]{"5","","","1"}),
+				new Room("4", "The Crypt", "/images/foyer.png", true, false, new String[]{"10","3","",""}),
+				new Room("5", "Field of Screams", "/images/foyer.png", true, false, new String[]{"","2","3",""}),
+				new Room("6", "Clown Tent", "/images/foyer.png", true, false, new String[]{"","5","4",""}),
+				new Room("7", "Slaughter House", "/images/foyer.png", true, false, new String[]{"9","","5",""}),
+				new Room("8", "Basement of Torture", "/images/foyer.png", true, false, new String[]{"9","","9",""}),
+				new Room("9", "The Graveyard", "/images/foyer.png", true, false, new String[]{"","6","8",""}),
+				new Room("10", "The Orphanage", "/images/foyer.png", true, false, new String[]{"-1","","","9"})};
 		for(int i=0; i<myrooms.length; i++) {
 			rooms.put(myrooms[i].getRefId(), myrooms[i]);
 			roomMap.put(myrooms[i].getRefId(), new ArrayList<Person>());
