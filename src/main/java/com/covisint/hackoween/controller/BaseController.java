@@ -11,6 +11,29 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.apache.http.HttpHeaders;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.apache.http.HttpResponse;
+
 
         /**
  *
@@ -53,6 +76,67 @@ public class BaseController {
 
     }
 
+  public String getToken() throws ClientProtocolException, IOException {
+    String url = "https://api.covapp.io/oauth/v3/token";
+
+    HttpClient client      = HttpClientBuilder.create().build();
+    HttpPost   post        = new HttpPost( url );
+    String     auth        = "rLfICu1QQGhQrelDTJQEV5zJ8mGodcVB" + ":" + "lat0eNA8k1Dul6pm";
+    byte[]     encodedAuth = Base64.getEncoder()
+                           .encode( auth.getBytes( Charset.forName( "ISO-8859-1" )));
+    String     authHeader  = "Basic " + new String( encodedAuth );
+    
+    post.setHeader( HttpHeaders.AUTHORIZATION, authHeader );
+    List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+    urlParameters.add( new BasicNameValuePair( "grant_type", "client_credentials" ));
+    urlParameters.add( new BasicNameValuePair( "scope", "all" ));
+
+    post.setEntity( new UrlEncodedFormEntity( urlParameters ));
+
+    HttpResponse response = client.execute( post );
+    System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
+    
+    BufferedReader rd     = new BufferedReader( new InputStreamReader(response.getEntity().getContent()));
+    StringBuffer   result = new StringBuffer();
+    String         line   = "";
+    while(( line = rd.readLine()) != null ) {
+      result.append( line );
+    }
+    
+    String payload = new String( result.toString() );
+    JsonParser parser = new JsonParser();
+    JsonObject jo = ( JsonObject ) parser.parse( payload );
+    String accessToken = jo.get( "access_token" ).getAsString();
+    //System.out.println( "accessToken " + accessToken );
+    return accessToken;
+  }
+  
+  public void sendCommand( String token, String command ) throws ClientProtocolException, IOException {
+    String url = "https://api.covapp.io//sendcommand/v1/message/command/7d4a78f9-89aa-464f-9664-8fd07cca28bf";
+
+    HttpClient client      = HttpClientBuilder.create().build();
+    HttpPost   post        = new HttpPost( url );
+    post.addHeader( "Accept",        "application/vnd.com.covisint.platform.messaging.sendcommand.v1+json" );
+    post.addHeader( "Content-Type",  "application/vnd.com.covisint.platform.messaging.sendcommand.v1+json" );
+    post.addHeader( "x-requestor",   "GBAWARI" );
+    post.addHeader( "x-requestor-app",   "postman" );
+    //post.addHeader( "x-realm",       "HAL06-HACK" );
+    post.addHeader( "Authorization", "Bearer " + token );
+    
+    StringBuilder builder = new StringBuilder( "{ \"messageId\":\"CommandobDojSequenceNum1158df1\", " )
+                           .append( "\"deviceId\":\"2857437f-b7931-4a98-a4c1-29e8ecf497bb\", " )
+                           .append( "\"commandId\":\"9bea93da-1965-441f-a069-11860b8358f4\", " )
+                           .append( "\"message\":\"" ).append( command ).append( "\", " )
+                           .append("\"encodingType\":\"base64\" }" )
+                           ;
+    
+    System.out.println( builder.toString() );
+   
+    post.setEntity( new StringEntity( builder.toString() ));
+
+    HttpResponse response = client.execute( post );
+    //System.out.println( "Response Code : "  + response.getStatusLine().getStatusCode());
+  }
 
 }
 

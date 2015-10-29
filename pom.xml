@@ -102,6 +102,16 @@
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
+	<dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5</version>
+        </dependency>
+	<dependency>
+	  <groupId>org.eclipse.paho</groupId>
+  	  <artifactId>mqtt-client</artifactId>
+  	  <version>0.4.0</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>hackoween06</finalName>
