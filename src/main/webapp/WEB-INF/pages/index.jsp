@@ -17,7 +17,7 @@ $(document).ready(function(){
         },
         function(data,status){
         	var currentClass = this.className;
-           $("#roompage").addClass("room2").removeClass(currentClass); 
+           $("#roompage").addClass("room${personJson.currentRoom.refId}").removeClass("room${personJson.perviousRoom.refId}"); 
         });
     });
     $("#south_button").click(function(){
@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 <div id="roompage" data-role="page" class="room1">
 
-<h2>Welcome ${userName} in ${roomId}</h2>   
+<h2>Welcome ${personJson.firstName} in ${personJson.currentRoom.refId}</h2>   
  
     <div data-role="content">
         
