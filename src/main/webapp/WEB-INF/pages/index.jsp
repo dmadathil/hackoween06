@@ -16,7 +16,8 @@ $(document).ready(function(){
           attr2: "data2"
         },
         function(data,status){
-           $("#roompage").addClass("room2").removeClass("room1"); 
+        	var currentClass = this.className;
+           $("#roompage").addClass("room2").removeClass(); 
         });
     });
     $("#south_button").click(function(){
