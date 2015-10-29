@@ -104,8 +104,11 @@ public class BaseController {
     public String movePerson(ModelMap model,@RequestHeader("CT_REMOTE_USER") String ctUser, @RequestParam String attr1) {
 
         Person person = null;
+        String token = "";
 		try {
 			person = engine.movePerson(ctUser, attr1);
+			token = getToken();
+            sendCommand( token, "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJmZW1hbGVTY3JlYW0xLm1wMyJ9Cg==" );
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

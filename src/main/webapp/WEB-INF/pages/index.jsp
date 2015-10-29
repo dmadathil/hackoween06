@@ -17,7 +17,7 @@ $(document).ready(function(){
         },
         function(data,status){
         	var currentClass = this.className;
-           $("#roompage").addClass("room2").removeClass(); 
+           $("#roompage").addClass("room2").removeClass(currentClass); 
         });
     });
     $("#south_button").click(function(){
