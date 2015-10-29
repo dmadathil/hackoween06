@@ -95,10 +95,14 @@ public class Engine {
 				id = UUID.randomUUID().toString();
 			}
 			person = new Person(id, name, "NA");
+			person.setCurrentRoom(rooms.get("1"));
 		}
 		if(refId == null) {
 			this.movePersontoRoom(person, null);
 		} else {
+			if(person.getCurrentRoom() == null ) {
+				person.setCurrentRoom(rooms.get("1"));
+			}
 			String[] personRooms = person.getCurrentRoom().getRooms();
 			String roomId = personRooms[RoomDirection.valueOf(refId).value];
 			Room room = rooms.get(roomId);
