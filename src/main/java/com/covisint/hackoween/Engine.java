@@ -35,6 +35,7 @@ public class Engine {
 	
 	private HashMap<String, Room> rooms = new HashMap<String, Room>();
 	
+	private HashMap<String, Person> persons = new HashMap<String, Person>();
 	
 	//Room with people
 	private HashMap<String, ArrayList<Person>> roomMap = new HashMap<String, ArrayList<Person>>();
@@ -62,6 +63,16 @@ public class Engine {
 		}
 	}
 	
+	public Person movePerson(String id, String refId) {
+		Person person = persons.get(id);
+		if(person==null) {
+			person = new Person(id,"NA", "NA");
+		}
+		Room room = rooms.get(refId);
+		this.movePersontoRoom(person, room);
+		return person;
+	}
+	
 	//passing in null will put person in room 1
 	public void movePersontoRoom(Person person, Room room) {
 		Room currentRoom = person.getCurrentRoom();
@@ -75,6 +86,7 @@ public class Engine {
 			roomMap.get(room.getRefId()).add(person);
 			person.setCurrentRoom(room);
 		}
+		
 	}
 
 	public List<Person> inRoomWith(Person person) {
