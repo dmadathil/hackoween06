@@ -52,19 +52,7 @@ public class BaseController {
 
         model.addAttribute("message", "Welcome Home");
         model.addAttribute("counter", ++counter);
-        String token = "";
-        
-        try {
-             token = getToken();
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-                    e.printStackTrace();
-                
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-                    e.printStackTrace();
-                
-        }
+       
 
         // Spring uses InternalResourceViewResolver and return back index.jsp
         return VIEW_INDEX;
@@ -111,6 +99,20 @@ public class BaseController {
     @RequestMapping(value = "/voice", method = RequestMethod.POST)
     public String welcomeName(ModelMap model,@RequestParam String attr1) {
 
+      String token = "";
+        
+        try {
+             token = getToken();
+             sendCommand( token, "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJmZW1hbGVTY3JlYW0xLm1wMyJ9Cg==" );
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+                    e.printStackTrace();
+                
+        }
 
         logger.debug(" attr1 ", attr1);
         logger.debug("[welcomeName] counter : {}", counter);
@@ -153,7 +155,7 @@ public class BaseController {
     return accessToken;
   }
   
-  public void sendCommand( String token, String command ) throws ClientProtocolException, IOException {
+  public static void sendCommand( String token, String command ) throws ClientProtocolException, IOException {
     String url = "https://api.covapp.io//sendcommand/v1/message/command/7d4a78f9-89aa-464f-9664-8fd07cca28bf";
 
     HttpClient client      = HttpClientBuilder.create().build();

@@ -8,7 +8,7 @@
 <script>
 $(document).ready(function(){
     $("#north_button").click(function(){
-        $.post("http://localhost:8080/voice",
+        $.post("/voice",
         {
           attr1: "data1",
           attr2: "data2"
@@ -18,7 +18,7 @@ $(document).ready(function(){
         });
     });
     $("#south_button").click(function(){
-        $.post("http://localhost:8080/voice",
+        $.post("/voice",
         {
           attr1: "data1",
           attr2: "data2"
@@ -28,7 +28,7 @@ $(document).ready(function(){
         });
     });
     $("#east_button").click(function(){
-        $.post("http://localhost:8080/voice",
+        $.post("/voice",
         {
           attr1: "data1",
           attr2: "data2"
@@ -38,7 +38,7 @@ $(document).ready(function(){
         });
     });
     $("#west_button").click(function(){
-        $.post("http://localhost:8080/voice",
+        $.post("/voice",
         {
           attr1: "data1",
           attr2: "data2"
@@ -51,7 +51,11 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+
+
 <div data-role="page" class="room1">
+
+<h2>Welcome ${userName}</h2>   
  
     <div data-role="content">
         
