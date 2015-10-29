@@ -7,6 +7,7 @@ public class Person {
 	private String lastName;
 	private boolean isDead = false;
 	private Room currentRoom;
+	private Room previousRoom;
 	
 	public Person(String id, String firstName, String lastName) {
 		super();
@@ -53,6 +54,14 @@ public class Person {
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;
+	}
+
+	public Room getPreviousRoom() {
+		return previousRoom;
+	}
+
+	public void setPreviousRoom(Room previousRoom) {
+		this.previousRoom = previousRoom;
 	}
 
 	public boolean equals(Object obj) {

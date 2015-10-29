@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.http.client.ClientProtocolException;
+import org.slf4j.LoggerFactory;
 
 import com.covisint.hackoween.controller.BaseController;
 import com.covisint.hackoween.model.Person;
@@ -15,6 +16,8 @@ import com.covisint.hackoween.model.Room;
 
 
 public class Engine { 
+	
+	private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BaseController.class);
 	
 	public enum RoomDirection{
 		NORTH(0), SOUTH(1), EAST(2), WEST(3);
@@ -43,11 +46,11 @@ public class Engine {
 		Iterator<Person> iter = persons.iterator(); 
 		while(iter.hasNext()) {
 			Person p = iter.next();
-			System.out.println("ID = " + p.getId());
+			logger.debug("ID = " + p.getId());
 		}
 		
 		engine.movePersontoRoom( p1, engine.rooms.get( p1.getCurrentRoom().getRooms()[0] ));
-		System.out.println( p1.getCurrentRoom().getName() );
+		logger.debug( p1.getCurrentRoom().getName() );
 	}
 	
 	private HashMap<String, Room> rooms = new HashMap<String, Room>();
@@ -88,7 +91,7 @@ public class Engine {
 				name = "NA";
 			}
 			if(id == null) {
-				System.out.println("id is null -- using uuid");
+				logger.debug("id is null -- using uuid");
 				id = UUID.randomUUID().toString();
 			}
 			person = new Person(id, name, "NA");
@@ -109,6 +112,7 @@ public class Engine {
 		Room currentRoom = person.getCurrentRoom();
 		if(currentRoom != null) {
 			roomMap.get(currentRoom.getRefId()).remove(person);
+			person.setPreviousRoom(currentRoom);
 		}
 		if(room == null) {
 			roomMap.get("1").add(person);
