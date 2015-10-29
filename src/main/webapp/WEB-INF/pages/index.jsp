@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function(){
     $("#north_button").click(function(){
-        $.post("/movePerson",
+        $.post("/moveperson",
         {
           attr1: "NORTH",
           attr2: "data2"

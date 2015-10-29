@@ -123,7 +123,7 @@ public class BaseController {
         Gson gson = new Gson();
         String personString = gson.toJson(person);
         logger.debug("person json = " + personString);
-        return personString;
+        return VIEW_INDEX;
 
     }
     
