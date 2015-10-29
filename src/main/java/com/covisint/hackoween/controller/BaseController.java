@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
@@ -50,6 +51,36 @@ public class BaseController {
     private static final String VIEW_INDEX = "index";
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BaseController.class);
     private final static Engine engine = new Engine();
+    
+    private String[] screamCommands = new String[]
+            { "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJCYWJ5Q3J5Lm1wMyJ9Cg==" // babyCry
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJmZW1hbGVTY3JlYW0xLm1wMyJ9Cg==" // femaleScream1
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJmZW1hbGVTY3JlYW0yLm1wMyJ9Cg==" // femaleScream2
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJtYW5TY3JlYW0xLm1wMyJ9Cg==" // manScream1
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJtYW5TY3JlYW0yLm1wMyJ9Cg==" // manscream2
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJtYW5TY3JlYW0zLm1wMyJ9Cg==" // manscream3
+            , "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJwc3ljaG9TY3JlYW0xLm1wMyJ9Cg==" // psychoscream1
+            };
+
+    public String getRndScream() {
+        Random rand = new Random();
+        int randomNum = rand.nextInt( screamCommands.length );
+        return screamCommands[ randomNum ];
+        }
+    
+    private void doRandomScream() {
+        String token;
+        try {
+        token = getToken();
+        sendCommand( token, getRndScream() );
+        } catch (ClientProtocolException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        }
+        }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome(ModelMap model) {
@@ -119,35 +150,26 @@ public class BaseController {
         logger.debug(" attr1 ", attr1);
         logger.debug("[welcomeName] counter : {}", counter);
         model.addAttribute("userName", person.getFirstName());
-        model.addAttribute("roomId", person.getCurrentRoom().getRefId());
+        model.addAttribute("roomId", person.getFirstName());
+        logger.debug("userName ", person.getFirstName());
+        logger.debug("roomId ", person.getCurrentRoom().getRefId());
         Gson gson = new Gson();
         String personString = gson.toJson(person);
+        
+        model.addAttribute("personJson", personString);
         logger.debug("person json = " + personString);
         return VIEW_INDEX;
 
     }
     
+    
     @RequestMapping(value = "/voice", method = RequestMethod.POST)
     public String welcomeName(ModelMap model,@RequestParam String attr1) {
+    doRandomScream();
 
-      String token = "";
-        
-        try {
-             token = getToken();
-             sendCommand( token, "eyJjb21tYW5kIjoiUExBWSIsImRhdGEiOiJmZW1hbGVTY3JlYW0xLm1wMyJ9Cg==" );
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-                    e.printStackTrace();
-                
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-                    e.printStackTrace();
-                
-        }
-
-        logger.debug(" attr1 ", attr1);
-        logger.debug("[welcomeName] counter : {}", counter);
-        return VIEW_INDEX;
+    logger.debug(" attr1 ", attr1);
+    logger.debug("[welcomeName] counter : {}", counter);
+    return VIEW_INDEX;
 
     }
 
