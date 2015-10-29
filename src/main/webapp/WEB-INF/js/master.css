@@ -4,6 +4,40 @@ body {
 		font-family:arial,helvetica,sans-serif;
 		font-size:12px;
 	}
+.room1 {
+	background-image: url("/images/landing_page1.png");
+	background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
+}
+.room2 {
+	background-image: url("/images/landing_page1.png");
+}
+.room3 {
+	background-image: url("/images/landing_page1.png");
+}
+.room4 {
+	background-image: url("/images/landing_page1.png");
+}
+.room5 {
+	background-image: url("/images/landing_page1.png");
+}
+.room6 {
+	background-image: url("/images/landing_page1.png");
+}
+.room7 {
+	background-image: url("/images/landing_page1.png");
+}
+.room8 {
+	background-image: url("/images/landing_page1.png");
+}
+.room9 {
+	background-image: url("/images/landing_page1.png");
+}
+.room10 {
+	background-image: url("/images/landing_page1.png");
+}
+
 #wrapper {
 	background-image: url("/images/landing_page1.png");
 	width:100%;
